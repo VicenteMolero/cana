@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>¿Caña? — ¿Nos tomamos una caña?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#fafaf7" id="theme-meta" />
+  <title>¿Cerveza? — ¿Nos tomamos una?</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
@@ -11,69 +13,82 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #fafaf7;
-      --text:     #1a1916;
-      --muted:    #9e9b93;
-      --muted2:   #c8c5bc;
-      --border:   #e8e5de;
-      --surface:  #f2f0eb;
-      --surface2: #eceae3;
-      --green:    #1a7a4a;
-      --green-bg: #e8f5ee;
-      --amber:    #9a6500;
-      --amber-bg: #fdf3e0;
-      --red:      #c0392b;
-      --red-bg:   #fdecea;
-      --radius:   10px;
-      --radius-sm: 6px;
+      --bg:        #fafaf7;
+      --bg-si:     #fffbf0;
+      --bg-quizas: #fdf8f0;
+      --bg-no:     #f5f6f8;
+      --text:      #1a1916;
+      --muted:     #9e9b93;
+      --muted2:    #c8c5bc;
+      --border:    #e8e5de;
+      --surface:   #f2f0eb;
+      --green:     #1a7a4a;
+      --green-bg:  #e8f5ee;
+      --amber:     #9a6500;
+      --amber-bg:  #fdf3e0;
+      --red:       #c0392b;
+      --red-bg:    #fdecea;
+      --radius:    12px;
+      --radius-sm: 8px;
+      --transition-bg: background-color 0.6s ease;
     }
 
-    html, body {
+    html { height: 100%; }
+
+    body {
       min-height: 100%;
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
-    }
-
-    body {
+      transition: var(--transition-bg);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 1.25rem 5rem;
     }
 
-    .wrap { width: 100%; max-width: 480px; }
+    body.estado-si     { background: var(--bg-si); }
+    body.estado-quizas { background: var(--bg-quizas); }
+    body.estado-no     { background: var(--bg-no); }
+
+    .wrap {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 1.25rem;
+    }
 
     /* ── NAVBAR ── */
     nav {
-      padding: 1.2rem 0 1rem;
+      padding: 1.1rem 0 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 1.75rem;
+      margin-bottom: 0;
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       text-decoration: none;
     }
 
     .logo-icon {
-      width: 28px;
-      height: 28px;
+      width: 30px; height: 30px;
       background: var(--text);
-      border-radius: 7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      line-height: 1;
       flex-shrink: 0;
     }
 
-    .logo-icon svg { display: block; }
+    .logo-wordmark {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
 
     .logo-name {
       font-family: 'Instrument Serif', serif;
@@ -83,21 +98,24 @@
       line-height: 1;
     }
 
-    .logo-name span {
-      font-family: 'DM Sans', sans-serif;
+    .logo-sub {
       font-size: 10px;
       font-weight: 400;
       color: var(--muted);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      display: block;
-      margin-top: 1px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .nav-live {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-size: 11px;
       color: var(--muted);
       letter-spacing: 0.06em;
@@ -112,88 +130,23 @@
       flex-shrink: 0;
     }
     .dot-live.off { background: var(--muted2); animation: none; }
-
     @keyframes breathe { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    /* ── CIUDAD TABS ── */
-    .ciudad-scroll {
-      overflow-x: auto;
-      margin-bottom: 1.75rem;
-      border-bottom: 1px solid var(--border);
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .ciudad-scroll::-webkit-scrollbar { display: none; }
-
-    .ciudad-row {
+    /* ── HERO — primer viewport ── */
+    .hero-section {
+      min-height: calc(100svh - 64px);
       display: flex;
-      gap: 0;
-      width: max-content;
-      min-width: 100%;
-    }
-
-    .ciudad-btn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      padding: 8px 14px 10px;
-      border: none;
-      border-bottom: 2px solid transparent;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      margin-bottom: -1px;
-      white-space: nowrap;
-      transition: color .15s;
-      flex: 1;
-      text-align: center;
-    }
-
-    .ciudad-btn:hover { color: var(--text); }
-    .ciudad-btn.active { color: var(--text); font-weight: 500; border-bottom-color: var(--text); }
-
-    /* ── VISTA TABS (full width) ── */
-    .vista-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-
-    .vista-btn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      padding: 10px 0;
-      border: none;
-      border-right: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      gap: 6px;
-      transition: background .12s, color .12s;
-    }
-
-    .vista-btn:last-child { border-right: none; }
-    .vista-btn.active { background: var(--text); color: var(--bg); font-weight: 500; }
-    .vista-btn:not(.active):hover { background: var(--surface); color: var(--text); }
-
-    /* ── RESPUESTA HERO ── */
-    .hero {
-      margin-bottom: 2rem;
+      padding: 2rem 0 2rem;
     }
 
     .hero-eyebrow {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 0.4rem;
       flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1rem;
+      min-height: 26px;
     }
 
     .ctx-pill {
@@ -208,28 +161,36 @@
       color: var(--muted);
       background: var(--surface);
     }
-
     .ctx-pill.festivo { background: var(--amber-bg); color: var(--amber); border-color: #f0d090; }
     .ctx-pill.finde   { background: var(--green-bg); color: var(--green); border-color: #b0dfc0; }
     .ctx-pill.sun     { background: #fff8ee; color: #a06000; border-color: #f5d88a; }
 
-    .respuesta {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(5rem, 17vw, 8rem);
-      line-height: 0.88;
-      letter-spacing: -0.025em;
-      margin-bottom: 1rem;
+    .hero-pregunta {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
     }
 
+    .respuesta {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(5.5rem, 22vw, 9rem);
+      line-height: 0.88;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.1rem;
+      transition: color 0.4s ease;
+    }
     .respuesta.si     { color: var(--green); }
     .respuesta.quizas { color: var(--amber); }
     .respuesta.no     { color: var(--red); }
+    .respuesta.loading { color: var(--surface); }
 
     .motivo {
       font-family: 'Instrument Serif', serif;
       font-style: italic;
-      font-size: clamp(1.1rem, 4vw, 1.35rem);
-      line-height: 1.35;
+      font-size: clamp(1.15rem, 4.5vw, 1.45rem);
+      line-height: 1.3;
       color: var(--text);
       margin-bottom: 0.4rem;
     }
@@ -239,9 +200,212 @@
       color: var(--muted);
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      margin-bottom: 1.5rem;
     }
 
+    /* ── ACCIONES HERO ── */
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-share {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .btn-share:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 10px 18px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-secondary:hover { background: var(--surface); color: var(--text); }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 1rem 0 0.5rem;
+      color: var(--muted2);
+    }
+
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 1.5px solid var(--muted2);
+      border-bottom: 1.5px solid var(--muted2);
+      transform: rotate(45deg);
+      animation: bounce 1.8s ease-in-out infinite;
+      margin-top: -6px;
+    }
+    @keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(4px)} }
+
+    /* ── DIVISOR ── */
     .divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+
+    /* ── CONTROLES (debajo del fold) ── */
+    .controles {
+      padding-top: 0.5rem;
+    }
+
+    .control-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    /* Ciudad chips */
+    .ciudad-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .ciudad-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .ciudad-btn:hover { border-color: var(--text); color: var(--text); }
+    .ciudad-btn.active {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg);
+      font-weight: 500;
+    }
+
+    /* Vista tabs full width */
+    .vista-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .vista-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      min-height: 44px;
+      border: none;
+      border-right: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background .12s, color .12s;
+    }
+    .vista-btn:last-child { border-right: none; }
+    .vista-btn.active { background: var(--text); color: var(--bg); font-weight: 500; }
+    .vista-btn:not(.active):hover { background: var(--surface); color: var(--text); }
+
+    /* ── TIMELINE FRANJA ÓPTIMA ── */
+    .timeline-block {
+      margin-bottom: 1.75rem;
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .timeline-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .timeline-best {
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .timeline-wrap {
+      position: relative;
+      height: 36px;
+    }
+
+    .timeline-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      overflow: hidden;
+      display: flex;
+    }
+
+    .tl-seg {
+      flex: 1;
+      height: 100%;
+      border-right: 1px solid var(--bg);
+      transition: background 0.3s;
+    }
+    .tl-seg:last-child { border-right: none; }
+    .tl-seg.si     { background: #c8edda; }
+    .tl-seg.quizas { background: #fde8b8; }
+    .tl-seg.no     { background: var(--surface); }
+
+    .timeline-now-marker {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--text);
+      border-radius: 99px;
+      z-index: 2;
+      transition: left 0.5s ease;
+    }
+
+    .timeline-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+
+    .tl-lbl {
+      font-size: 10px;
+      color: var(--muted);
+    }
 
     /* ── BARRA DE LUZ ── */
     .luz-block { margin-bottom: 1.75rem; }
@@ -249,14 +413,10 @@
     .luz-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .luz-title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
       font-size: 12px;
       font-weight: 500;
       color: var(--text);
@@ -269,8 +429,8 @@
       height: 8px;
       background: var(--surface);
       border-radius: 99px;
+      margin-bottom: 5px;
       overflow: visible;
-      margin-bottom: 6px;
     }
 
     .luz-fill {
@@ -287,29 +447,17 @@
       transform: translate(-50%, -50%);
       width: 14px; height: 14px;
       border-radius: 50%;
-      background: var(--amber);
+      background: #e87820;
       border: 2px solid var(--bg);
-      box-shadow: 0 0 0 1px var(--amber);
+      box-shadow: 0 0 0 1px #e87820;
       transition: left .8s ease;
       z-index: 2;
     }
 
-    .luz-sub {
-      font-size: 11px;
-      color: var(--muted);
-      text-align: right;
-    }
+    .luz-sub { font-size: 11px; color: var(--muted); text-align: right; }
 
-    /* ── DATOS GRID (mejorado) ── */
+    /* ── DATOS GRID ── */
     .datos-section { margin-bottom: 1.75rem; }
-
-    .datos-title {
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
 
     .datos-grid {
       display: grid;
@@ -323,54 +471,31 @@
       padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 0;
-      position: relative;
-      overflow: hidden;
     }
 
-    .dato-icon {
-      font-size: 20px;
-      line-height: 1;
-      margin-bottom: 10px;
-    }
+    .dato-icon { font-size: 20px; margin-bottom: 8px; line-height: 1; }
+    .dato-val  { font-size: 22px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 3px; }
+    .dato-lbl  { font-size: 11px; color: var(--muted); }
+    .dato-sub  { font-size: 11px; color: var(--muted2); margin-top: 2px; }
 
-    .dato-val {
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 3px;
-    }
+    .dato.hl-green { background: var(--green-bg); }
+    .dato.hl-green .dato-val { color: var(--green); }
+    .dato.hl-amber { background: var(--amber-bg); }
+    .dato.hl-amber .dato-val { color: var(--amber); }
+    .dato.hl-red   { background: var(--red-bg); }
+    .dato.hl-red   .dato-val { color: var(--red); }
 
-    .dato-lbl {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .dato-sub {
-      font-size: 11px;
-      color: var(--muted2);
-      margin-top: 2px;
-    }
-
-    .dato.highlight-green { background: var(--green-bg); }
-    .dato.highlight-green .dato-val { color: var(--green); }
-    .dato.highlight-amber { background: var(--amber-bg); }
-    .dato.highlight-amber .dato-val { color: var(--amber); }
-    .dato.highlight-red   { background: var(--red-bg); }
-    .dato.highlight-red   .dato-val { color: var(--red); }
-
-    /* ── HORAS LIST ── */
+    /* ── HORAS ── */
     .horas-section { margin-bottom: 1.75rem; }
 
     .horas-title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
       font-size: 12px;
       font-weight: 500;
       color: var(--text);
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .horas-list {
@@ -381,53 +506,46 @@
 
     .hora-item {
       display: grid;
-      grid-template-columns: 44px 60px 1fr auto;
+      grid-template-columns: 48px 58px 1fr auto;
       align-items: center;
       gap: 10px;
-      padding: 11px 14px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border);
       background: var(--bg);
     }
-
     .hora-item:last-child { border-bottom: none; }
     .hora-item.now { background: var(--surface); }
 
-    .hora-time {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .hora-badge {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 99px;
-      text-align: center;
-    }
-
+    .hora-time  { font-size: 13px; font-weight: 500; color: var(--text); }
+    .hora-badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 99px; text-align: center; }
     .hora-badge.si     { background: var(--green-bg); color: var(--green); }
     .hora-badge.quizas { background: var(--amber-bg); color: var(--amber); }
     .hora-badge.no     { background: var(--red-bg);   color: var(--red); }
-
-    .hora-desc { font-size: 12px; color: var(--muted); }
+    .hora-desc  { font-size: 12px; color: var(--muted); }
     .hora-extra { font-size: 11px; color: var(--muted2); text-align: right; white-space: nowrap; }
 
     /* ── SEMANA ── */
     .semana-hero {
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(1.8rem, 7vw, 2.4rem);
-      line-height: 1.15;
+      font-size: clamp(1.8rem, 7vw, 2.6rem);
+      line-height: 1.1;
       letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     .semana-hero.si     { color: var(--green); }
     .semana-hero.quizas { color: var(--amber); }
     .semana-hero.no     { color: var(--red); }
 
-    /* ── SKELETON ── */
+    /* ── LOADING ── */
+    .loading-hero {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 1rem 0;
+    }
+
     .skel {
-      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background: linear-gradient(90deg, var(--surface) 25%, #eceae3 50%, var(--surface) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s infinite;
       border-radius: var(--radius-sm);
@@ -436,29 +554,28 @@
 
     /* ── FOOTER ── */
     footer {
+      padding: 1rem 0 2rem;
       border-top: 1px solid var(--border);
-      padding-top: 1.25rem;
-      margin-top: .5rem;
+      margin-top: 1rem;
       display: flex;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 6px;
     }
-    footer span { font-size: 10px; color: var(--muted2); letter-spacing: 0.06em; text-transform: uppercase; }
 
-    /* ── FADE IN ── */
-    .fade { opacity: 0; transform: translateY(8px); animation: fu .38s ease forwards; }
+    footer span {
+      font-size: 10px;
+      color: var(--muted2);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── ANIMACIONES ── */
+    .fade { opacity:0; transform:translateY(8px); animation: fu .38s ease forwards; }
     .fade:nth-child(1){animation-delay:.00s}
-    .fade:nth-child(2){animation-delay:.06s}
-    .fade:nth-child(3){animation-delay:.12s}
-    .fade:nth-child(4){animation-delay:.18s}
-    .fade:nth-child(5){animation-delay:.24s}
-    .fade:nth-child(6){animation-delay:.30s}
+    .fade:nth-child(2){animation-delay:.07s}
+    .fade:nth-child(3){animation-delay:.13s}
+    .fade:nth-child(4){animation-delay:.19s}
+    .fade:nth-child(5){animation-delay:.25s}
+    .fade:nth-child(6){animation-delay:.31s}
     @keyframes fu { to { opacity:1; transform:translateY(0); } }
-
-    @media(max-width:360px){
-      .ciudad-btn { font-size:12px; padding:8px 10px 10px; }
-    }
   </style>
 </head>
 <body>
@@ -467,51 +584,55 @@
   <!-- NAVBAR -->
   <nav>
     <a class="logo" href="#">
-      <div class="logo-icon">
-        <!-- Beer mug icon -->
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="4" width="8" height="10" rx="1.5" stroke="#fafaf7" stroke-width="1.4" fill="none"/>
-          <path d="M10 7h2.5a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H10" stroke="#fafaf7" stroke-width="1.4" fill="none"/>
-          <line x1="5" y1="4" x2="5" y2="2.5" stroke="#fafaf7" stroke-width="1.4" stroke-linecap="round"/>
-          <line x1="7.5" y1="4" x2="7.5" y2="2" stroke="#fafaf7" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="logo-name">
-        Caña
-        <span>¿Nos tomamos una?</span>
+      <div class="logo-icon">🍺</div>
+      <div class="logo-wordmark">
+        <span class="logo-name">Cerveza</span>
+        <span class="logo-sub">¿Nos tomamos una?</span>
       </div>
     </a>
-    <div class="nav-live">
-      <span class="dot-live off" id="dot"></span>
-      <span id="live-txt">cargando</span>
+    <div class="nav-right">
+      <div class="nav-live">
+        <span class="dot-live off" id="dot"></span>
+        <span id="live-txt">cargando</span>
+      </div>
     </div>
   </nav>
 
-  <!-- CIUDAD TABS -->
-  <div class="ciudad-scroll">
-    <div class="ciudad-row" id="ciudades">
-      <button class="ciudad-btn active" id="btn-geo" data-ciudad="geo">📍 Aquí</button>
-      <button class="ciudad-btn" data-ciudad="madrid"    data-lat="40.4168" data-lon="-3.7038">Madrid</button>
-      <button class="ciudad-btn" data-ciudad="barcelona" data-lat="41.3851" data-lon="2.1734">Barcelona</button>
-      <button class="ciudad-btn" data-ciudad="sevilla"   data-lat="37.3891" data-lon="-5.9845">Sevilla</button>
-      <button class="ciudad-btn" data-ciudad="valencia"  data-lat="39.4699" data-lon="-0.3763">Valencia</button>
-      <button class="ciudad-btn" data-ciudad="bilbao"    data-lat="43.2627" data-lon="-2.9253">Bilbao</button>
+  <!-- HERO — primer viewport -->
+  <section class="hero-section" id="hero">
+    <div class="loading-hero" id="hero-content">
+      <div class="skel" style="width:60%;height:16px;"></div>
+      <div class="skel" style="width:55%;height:96px;border-radius:12px;"></div>
+      <div class="skel" style="width:80%;height:24px;"></div>
+      <div class="skel" style="width:50%;height:14px;"></div>
     </div>
-  </div>
+    <div class="scroll-hint" id="scroll-hint" style="display:none;">
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
 
-  <!-- VISTA TABS -->
-  <div class="vista-tabs" id="vistas">
-    <button class="vista-btn active" data-vista="ahora">Ahora</button>
-    <button class="vista-btn" data-vista="manana">Mañana</button>
-    <button class="vista-btn" data-vista="semana">Semana</button>
-  </div>
+  <!-- CONTROLES + DETALLE (debajo del fold) -->
+  <div class="controles" id="controles">
 
-  <!-- CONTENIDO -->
-  <div id="contenido">
-    <div class="skel" style="height:110px;margin-bottom:12px;"></div>
-    <div class="skel" style="height:48px;margin-bottom:12px;"></div>
-    <div class="skel" style="height:80px;margin-bottom:12px;"></div>
-    <div class="skel" style="height:220px;"></div>
+    <p class="control-label">Ciudad</p>
+    <div class="ciudad-chips" id="ciudades">
+      <button class="ciudad-btn active" id="btn-geo">📍 Aquí</button>
+      <button class="ciudad-btn" data-lat="40.4168" data-lon="-3.7038" data-nombre="Madrid">Madrid</button>
+      <button class="ciudad-btn" data-lat="41.3851" data-lon="2.1734"  data-nombre="Barcelona">Barcelona</button>
+      <button class="ciudad-btn" data-lat="37.3891" data-lon="-5.9845" data-nombre="Sevilla">Sevilla</button>
+      <button class="ciudad-btn" data-lat="39.4699" data-lon="-0.3763" data-nombre="Valencia">Valencia</button>
+      <button class="ciudad-btn" data-lat="43.2627" data-lon="-2.9253" data-nombre="Bilbao">Bilbao</button>
+    </div>
+
+    <p class="control-label">Cuándo</p>
+    <div class="vista-tabs" id="vistas">
+      <button class="vista-btn active" data-vista="ahora">Ahora</button>
+      <button class="vista-btn" data-vista="manana">Mañana</button>
+      <button class="vista-btn" data-vista="semana">Semana</button>
+    </div>
+
+    <div id="detalle"></div>
+
   </div>
 
   <footer>
@@ -531,17 +652,15 @@ const FESTIVOS = new Set([
 ]);
 
 const DIAS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const fmtDate = d => d.toISOString().split('T')[0];
+const fmtHora = d => d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
 
-function fmtDate(d){ return d.toISOString().split('T')[0]; }
-function fmtHora(d){ return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); }
-
-function ctxDia(now){
+function ctxDia(now) {
   const h=now.getHours(), dow=now.getDay();
   const hoy=fmtDate(now);
   const man=new Date(now); man.setDate(now.getDate()+1);
-  const manStr=fmtDate(man);
   const esFestHoy=FESTIVOS.has(hoy);
-  const esFestMan=FESTIVOS.has(manStr);
+  const esFestMan=FESTIVOS.has(fmtDate(man));
   const esFinde=dow===0||dow===6;
   const esPrevio=dow===5||esFestMan;
   let momento='';
@@ -550,21 +669,21 @@ function ctxDia(now){
   else if(h>=17&&h<21) momento='after work';
   else if(h>=21) momento='noche';
   else momento='mañana';
-  return {esFestHoy,esFestMan,esFinde,esPrevio,momento,dow,hoy,manStr};
+  return {esFestHoy,esFestMan,esFinde,esPrevio,momento,dow,hoy,manStr:fmtDate(man)};
 }
 
-function copyCtx(ctx,nivel){
+function copyCtx(ctx,nivel) {
   if(nivel==='no') return null;
-  if(ctx.esFestHoy)  return 'Hoy es festivo. La caña no es opcional.';
-  if(ctx.esFinde&&nivel==='si') return 'Fin de semana y buen tiempo. Combina perfecta.';
-  if(ctx.esPrevio&&nivel==='si') return 'Mañana es festivo. Esta caña cuenta doble.';
+  if(ctx.esFestHoy)  return 'Hoy es festivo. La cerveza no es opcional.';
+  if(ctx.esFinde&&nivel==='si')  return 'Fin de semana y buen tiempo. Combina perfecta.';
+  if(ctx.esPrevio&&nivel==='si') return 'Mañana es festivo. Esta cerveza cuenta doble.';
   if(ctx.momento==='vermut'&&nivel==='si') return 'Hora del vermut. Sincronía perfecta.';
   if(ctx.momento==='after work'&&nivel==='si') return 'After work ideal. La terraza te espera.';
   if(ctx.momento==='noche'&&nivel==='si') return 'Noche tranquila y buena temperatura.';
   return null;
 }
 
-function score(t,r,w){
+function score(t,r,w) {
   let s=0;
   if(t>=22&&t<=30)s+=3; else if(t>=18)s+=2; else if(t>=14)s+=1;
   if(r<0.1)s+=3; else if(r<0.5)s+=1;
@@ -572,201 +691,241 @@ function score(t,r,w){
   return s;
 }
 
-function veredicto(s,t,r,w){
-  if(r>=1)  return {nivel:'no',motivo:'Está lloviendo. Terraza imposible.',consejo:'Cañas de interior o para casa'};
-  if(w>=35) return {nivel:'no',motivo:'Viento de escándalo hoy.',consejo:'Busca un bar con paredes'};
-  if(t<10)  return {nivel:'no',motivo:'Hace un frío que no perdona.',consejo:'Espera a que el sol decida algo'};
-  if(s>=7)  return {nivel:'si',motivo:'Terraza perfecta. Sin excusas.',consejo:'Llama a quien toca'};
-  if(s>=5)  return {nivel:'si',motivo:'Buena tarde de terraza.',consejo:'Pide la primera y ya ves'};
-  if(s>=3)  return {nivel:'quizas',motivo:'Se puede, pero lleva algo encima.',consejo:'Elige terraza con toldo'};
-  return {nivel:'no',motivo:'Hoy no es día de terraza.',consejo:'Plan B: sofá y serie'};
+function veredicto(s,t,r,w) {
+  if(r>=1)  return {nivel:'no',    motivo:'Está lloviendo. Terraza imposible.',    consejo:'Cañas de interior o para casa'};
+  if(w>=35) return {nivel:'no',    motivo:'Viento de escándalo hoy.',              consejo:'Busca un bar con paredes'};
+  if(t<10)  return {nivel:'no',    motivo:'Hace un frío que no perdona.',          consejo:'Espera a que el sol decida algo'};
+  if(s>=7)  return {nivel:'si',    motivo:'Terraza perfecta. Sin excusas.',        consejo:'Llama a quien toca'};
+  if(s>=5)  return {nivel:'si',    motivo:'Buena tarde de terraza.',               consejo:'Pide la primera y ya ves'};
+  if(s>=3)  return {nivel:'quizas',motivo:'Se puede, pero lleva algo encima.',     consejo:'Elige terraza con toldo'};
+  return     {nivel:'no',          motivo:'Hoy no es día de terraza.',             consejo:'Plan B: sofá y serie'};
 }
 
-function nivelH(t,r,w){
+function nivelH(t,r,w) {
   if(r>=1||w>=35||t<10) return 'no';
   const s=score(t,r,w); return s>=5?'si':s>=3?'quizas':'no';
 }
 
-function wmoDesc(c){
-  if(c===0) return 'Despejado';
-  if(c<=2)  return 'Poco nublado';
-  if(c<=3)  return 'Nublado';
-  if(c<=49) return 'Niebla';
-  if(c<=59) return 'Llovizna';
-  if(c<=69) return 'Lluvia';
-  if(c<=79) return 'Nieve';
-  if(c<=82) return 'Chubascos';
-  if(c<=99) return 'Tormenta';
-  return 'Variable';
+function wmoDesc(c) {
+  if(c===0)  return 'Despejado';  if(c<=2) return 'Poco nublado';
+  if(c<=3)   return 'Nublado';    if(c<=49) return 'Niebla';
+  if(c<=59)  return 'Llovizna';   if(c<=69) return 'Lluvia';
+  if(c<=79)  return 'Nieve';      if(c<=82) return 'Chubascos';
+  if(c<=99)  return 'Tormenta';   return 'Variable';
 }
 
-function wmoIcon(c){
-  if(c===0) return '☀️';
-  if(c<=2)  return '🌤️';
-  if(c<=3)  return '☁️';
-  if(c<=49) return '🌫️';
-  if(c<=69) return '🌧️';
-  if(c<=79) return '❄️';
-  if(c<=82) return '🌦️';
-  return '⛈️';
+function wmoIcon(c) {
+  if(c===0) return '☀️'; if(c<=2) return '🌤️'; if(c<=3) return '☁️';
+  if(c<=49) return '🌫️'; if(c<=69) return '🌧️'; if(c<=79) return '❄️';
+  if(c<=82) return '🌦️'; return '⛈️';
 }
 
-function vientoDesc(v){
-  if(v<10)  return 'Sin viento';
-  if(v<20)  return 'Brisa suave';
-  if(v<30)  return 'Brisa';
-  if(v<40)  return 'Ventoso';
-  return 'Muy fuerte';
+function vientoDesc(v) {
+  if(v<10) return 'sin viento'; if(v<20) return 'brisa suave';
+  if(v<30) return 'brisa';      if(v<40) return 'ventoso'; return 'muy fuerte';
 }
 
-function lluviaDesc(r){
-  if(r<0.1) return 'Sin lluvia';
-  if(r<0.5) return 'Llovizna';
-  if(r<2)   return 'Lluvia ligera';
-  return 'Lluvia';
+function lluviaDesc(r) {
+  if(r<0.1) return 'sin lluvia'; if(r<0.5) return 'llovizna';
+  if(r<2)   return 'lluvia ligera'; return 'lluvia';
 }
 
-function luzRestante(now,sunset){
+function luzRestante(now,sunset) {
   const diff=sunset-now;
   if(diff<=0) return null;
   const h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000);
   return h>0?`Quedan ${h}h ${m}min de luz`:`Quedan ${m}min de luz`;
 }
 
+function shareWhatsApp(nivel,ciudad) {
+  const txt = nivel==='si'
+    ? `🍺 Sí, cerveza. ${ciudad} está perfecta ahora mismo. ¿Nos vemos?`
+    : nivel==='quizas'
+    ? `🍺 Quizás cerveza en ${ciudad}... Yo me apunto si te apuntas.`
+    : `🍺 Hoy no es día de terraza en ${ciudad}. Otro día será.`;
+  const url = `https://wa.me/?text=${encodeURIComponent(txt+'\n\ncerveza.app')}`;
+  window.open(url,'_blank');
+}
+
+// ── Estado global ──
+let activeCiudad = {lat:null,lon:null,nombre:'Aquí'};
+let activeVista  = 'ahora';
+let cache        = null;
+let cacheKey     = '';
+
 // ── Fetch ──
-async function fetchAll(lat,lon){
+async function fetchAll(lat,lon) {
   const [meteo,sun] = await Promise.all([
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,weathercode&current_weather=true&timezone=auto&forecast_days=7`).then(r=>r.json()),
     fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&date=${fmtDate(new Date())}&formatted=0`).then(r=>r.json()).catch(()=>null),
   ]);
-  const sunData = sun?.status==='OK' ? {
-    sunrise: new Date(sun.results.sunrise),
-    sunset:  new Date(sun.results.sunset),
-  } : null;
-  return {meteo, sun: sunData};
+  return {
+    meteo,
+    sun: sun?.status==='OK' ? {sunrise:new Date(sun.results.sunrise),sunset:new Date(sun.results.sunset)} : null
+  };
 }
 
-// ── Estado ──
-let activeCiudad = {lat:null, lon:null, nombre:'Aquí'};
-let activeVista  = 'ahora';
-let cache        = null;
-let cacheKey     = '';
-let geoLoaded    = false;
+// ── Render hero ──
+function renderHero(nivel,motivo,consejo,ctx,ciudad,pills) {
+  const texto = nivel==='si'?'Sí.':nivel==='quizas'?'Quizás.':'No.';
 
-// ── Render principal ──
-function render(meteo, sun){
-  const now    = new Date();
-  const hourly = meteo.hourly;
-  const daily  = meteo.daily;
-  const ctx    = ctxDia(now);
+  document.getElementById('hero-content').innerHTML = `
+    <div class="hero-eyebrow fade">${pills.join('')}</div>
+    <p class="hero-pregunta fade">¿Nos tomamos una cerveza?</p>
+    <div class="respuesta ${nivel} fade">${texto}</div>
+    <p class="motivo fade">${motivo}</p>
+    <p class="consejo fade">${consejo}</p>
+    <div class="hero-actions fade">
+      <button class="btn-share" id="btn-wa">📲 Compartir</button>
+    </div>`;
 
-  let idx=0;
-  for(let i=0;i<hourly.time.length;i++){
-    if(new Date(hourly.time[i])<=now) idx=i;
+  document.getElementById('scroll-hint').style.display = 'flex';
+
+  // fondo reactivo
+  document.body.className = `estado-${nivel}`;
+  document.getElementById('theme-meta').content =
+    nivel==='si'?'#fffbf0':nivel==='quizas'?'#fdf8f0':'#f5f6f8';
+
+  document.getElementById('btn-wa').addEventListener('click',()=>shareWhatsApp(nivel,ciudad));
+}
+
+// ── Render detalle Ahora ──
+function renderAhora(hourly,daily,sun,ctx,idx,now) {
+  const t=Math.round(hourly.temperature_2m[idx]);
+  const r=hourly.precipitation[idx];
+  const w=Math.round(hourly.windspeed_10m[idx]);
+  const s=score(t,r,w);
+  const v=veredicto(s,t,r,w);
+  const motivo=copyCtx(ctx,v.nivel)||v.motivo;
+
+  const pills=[];
+  if(ctx.esFestHoy)       pills.push(`<span class="ctx-pill festivo">🎉 Festivo hoy</span>`);
+  else if(ctx.esFinde)    pills.push(`<span class="ctx-pill finde">📅 Fin de semana</span>`);
+  else if(ctx.esFestMan)  pills.push(`<span class="ctx-pill festivo">📅 Mañana festivo</span>`);
+  if(sun) pills.push(`<span class="ctx-pill sun">🌅 Sol hasta las ${fmtHora(sun.sunset)}</span>`);
+
+  renderHero(v.nivel, motivo, v.consejo, ctx, activeCiudad.nombre, pills);
+
+  // Timeline franja óptima (próximas 12h desde las 10h hasta las 23h)
+  const horaInicio=10, horaFin=23, totalH=horaFin-horaInicio;
+  const segs=[];
+  const bestRanges=[];
+  let bestStart=null;
+
+  for(let h=horaInicio;h<horaFin;h++){
+    // busca el índice hourly de esta hora hoy
+    const target=new Date(now); target.setHours(h,0,0,0);
+    let hi=idx;
+    for(let i=0;i<hourly.time.length;i++){
+      const hd=new Date(hourly.time[i]);
+      if(hd<=target) hi=i;
+    }
+    const ht=Math.round(hourly.temperature_2m[hi]);
+    const hr=hourly.precipitation[hi];
+    const hw=Math.round(hourly.windspeed_10m[hi]);
+    const niv=nivelH(ht,hr,hw);
+    segs.push(niv);
+    if(niv==='si'){ if(bestStart===null) bestStart=h; }
+    else { if(bestStart!==null){ bestRanges.push({start:bestStart,end:h}); bestStart=null; } }
   }
+  if(bestStart!==null) bestRanges.push({start:bestStart,end:horaFin});
 
-  document.getElementById('footer-ciudad').textContent = activeCiudad.nombre + ' · ' + {ahora:'Ahora',manana:'Mañana',semana:'Semana'}[activeVista];
+  const bestLabel = bestRanges.length>0
+    ? `Mejor franja: ${bestRanges[0].start}h–${bestRanges[0].end}h`
+    : '';
 
-  if(activeVista==='ahora')  renderAhora(hourly, daily, sun, ctx, idx, now);
-  else if(activeVista==='manana') renderManana(hourly, daily, sun, ctx);
-  else renderSemana(daily, ctx);
-}
+  const nowPct = Math.min(100,Math.max(0,((now.getHours()+now.getMinutes()/60)-horaInicio)/totalH*100));
 
-function renderAhora(hourly, daily, sun, ctx, idx, now){
-  const t = Math.round(hourly.temperature_2m[idx]);
-  const r = hourly.precipitation[idx];
-  const w = Math.round(hourly.windspeed_10m[idx]);
-  const s = score(t,r,w);
-  const v = veredicto(s,t,r,w);
-  const motivo = copyCtx(ctx,v.nivel) || v.motivo;
-  const sunsetStr  = sun ? fmtHora(sun.sunset)  : null;
-  const sunriseStr = sun ? fmtHora(sun.sunrise) : null;
+  const segsHTML = segs.map(niv=>`<div class="tl-seg ${niv}"></div>`).join('');
 
-  // pills
-  const pills = [];
-  if(ctx.esFestHoy)        pills.push(`<span class="ctx-pill festivo">🎉 Festivo hoy</span>`);
-  else if(ctx.esFinde)     pills.push(`<span class="ctx-pill finde">📅 Fin de semana</span>`);
-  else if(ctx.esFestMan)   pills.push(`<span class="ctx-pill festivo">📅 Mañana festivo</span>`);
-  if(sunsetStr)            pills.push(`<span class="ctx-pill sun">🌅 Sol hasta las ${sunsetStr}</span>`);
+  const tlHTML = `
+    <div class="timeline-block fade">
+      <div class="timeline-header">
+        <span class="timeline-title">⏱ Franja del día</span>
+        <span class="timeline-best">${bestLabel}</span>
+      </div>
+      <div class="timeline-wrap">
+        <div class="timeline-bg">${segsHTML}</div>
+        <div class="timeline-now-marker" style="left:${nowPct}%"></div>
+      </div>
+      <div class="timeline-labels">
+        <span class="tl-lbl">10h</span>
+        <span class="tl-lbl">16h</span>
+        <span class="tl-lbl">23h</span>
+      </div>
+    </div>`;
 
-  // barra luz
-  let luzHTML = '';
+  // Barra de luz
+  let luzHTML='';
   if(sun){
-    const dayLen = sun.sunset - sun.sunrise;
-    const elapsed = now - sun.sunrise;
-    const pct = Math.min(100,Math.max(0,(elapsed/dayLen)*100));
-    const resto = luzRestante(now.getTime(), sun.sunset.getTime());
-    luzHTML = `
+    const dayLen=sun.sunset-sun.sunrise;
+    const elapsed=now-sun.sunrise;
+    const pct=Math.min(100,Math.max(0,(elapsed/dayLen)*100));
+    const resto=luzRestante(now.getTime(),sun.sunset.getTime());
+    luzHTML=`
       <div class="luz-block fade">
         <div class="luz-header">
-          <div class="luz-title">☀️ <span>Luz del día</span></div>
-          <span class="luz-times">${sunriseStr} → ${sunsetStr}</span>
+          <span class="luz-title">☀️ Luz del día</span>
+          <span class="luz-times">${fmtHora(sun.sunrise)} → ${fmtHora(sun.sunset)}</span>
         </div>
         <div class="luz-bar-wrap">
           <div class="luz-fill" style="width:${pct}%"></div>
           <div class="luz-marker" style="left:${pct}%"></div>
         </div>
-        <div class="luz-sub">${resto || 'Ya ha anochecido'}</div>
+        <div class="luz-sub">${resto||'Ya ha anochecido'}</div>
       </div>`;
   }
 
-  // color del dato temp
-  const tempClass = t>=22&&t<=30?'highlight-green':t<12?'highlight-red':t<17?'highlight-amber':'';
-  const vientoClass = w>=35?'highlight-red':w>=25?'highlight-amber':'';
-  const lluviaClass = r>=1?'highlight-red':r>=0.5?'highlight-amber':'';
+  const tC=t>=22&&t<=30?'hl-green':t<12?'hl-red':t<17?'hl-amber':'';
+  const wC=w>=35?'hl-red':w>=25?'hl-amber':'';
+  const rC=r>=1?'hl-red':r>=0.5?'hl-amber':'';
 
   // horas
   let horasHTML='';
   for(let i=idx;i<Math.min(idx+8,hourly.time.length);i++){
     const hDate=new Date(hourly.time[i]);
     const ht=Math.round(hourly.temperature_2m[i]);
-    const hr=hourly.precipitation[i];
+    const hr2=hourly.precipitation[i];
     const hw=Math.round(hourly.windspeed_10m[i]);
-    const niv=nivelH(ht,hr,hw);
+    const niv=nivelH(ht,hr2,hw);
     const badge=niv==='si'?'Sí':niv==='quizas'?'Quizás':'No';
     const isNow=i===idx;
     const afterSun=sun&&hDate>sun.sunset;
-    const extra=afterSun?'noche':(niv==='quizas'?'lleva algo':'');
+    const extra=afterSun?'noche':niv==='quizas'?'lleva algo':'';
     horasHTML+=`
       <div class="hora-item${isNow?' now':''}">
         <span class="hora-time">${isNow?'Ahora':hDate.getHours()+'h'}</span>
         <span class="hora-badge ${niv}">${badge}</span>
-        <span class="hora-desc">${ht}° · ${lluviaDesc(hr)} · ${vientoDesc(hw)}</span>
+        <span class="hora-desc">${ht}° · ${lluviaDesc(hr2)} · ${vientoDesc(hw)}</span>
         <span class="hora-extra">${extra}</span>
       </div>`;
   }
 
-  document.getElementById('contenido').innerHTML = `
-    <div class="hero fade">
-      <div class="hero-eyebrow">${pills.join('')}</div>
-      <div class="respuesta ${v.nivel}">${v.nivel==='si'?'Sí.':v.nivel==='quizas'?'Quizás.':'No.'}</div>
-      <p class="motivo">${motivo}</p>
-      <p class="consejo">${v.consejo}</p>
-    </div>
-    <div class="divider fade"></div>
+  document.getElementById('detalle').innerHTML = `
+    ${tlHTML}
     ${luzHTML}
     <div class="datos-section fade">
-      <div class="datos-title">Condiciones ahora</div>
+      <p class="control-label" style="margin-bottom:10px;">Condiciones ahora</p>
       <div class="datos-grid">
-        <div class="dato ${tempClass}">
+        <div class="dato ${tC}">
           <div class="dato-icon">🌡️</div>
           <div class="dato-val">${t}°C</div>
           <div class="dato-lbl">Temperatura</div>
         </div>
-        <div class="dato ${vientoClass}">
+        <div class="dato ${wC}">
           <div class="dato-icon">💨</div>
           <div class="dato-val">${w} km/h</div>
           <div class="dato-lbl">Viento</div>
           <div class="dato-sub">${vientoDesc(w)}</div>
         </div>
-        <div class="dato ${lluviaClass}">
+        <div class="dato ${rC}">
           <div class="dato-icon">🌧️</div>
-          <div class="dato-val" style="font-size:16px;margin-top:3px;">${lluviaDesc(r)}</div>
+          <div class="dato-val" style="font-size:16px;margin-top:4px;">${lluviaDesc(r)}</div>
           <div class="dato-lbl">Lluvia</div>
         </div>
         <div class="dato">
           <div class="dato-icon">🕐</div>
-          <div class="dato-val" style="font-size:16px;margin-top:3px;text-transform:capitalize;">${ctx.momento}</div>
+          <div class="dato-val" style="font-size:16px;margin-top:4px;text-transform:capitalize;">${ctx.momento}</div>
           <div class="dato-lbl">Momento</div>
         </div>
       </div>
@@ -777,7 +936,7 @@ function renderAhora(hourly, daily, sun, ctx, idx, now){
     </div>`;
 }
 
-function renderManana(hourly, daily, sun, ctx){
+function renderManana(hourly,daily,sun,ctx) {
   const i=1;
   const tMax=Math.round(daily.temperature_2m_max[i]);
   const tMin=Math.round(daily.temperature_2m_min[i]);
@@ -787,13 +946,12 @@ function renderManana(hourly, daily, sun, ctx){
   const s=score(tMax,rain,wind);
   const v=veredicto(s,tMax,rain,wind);
 
+  const esFest=FESTIVOS.has(ctx.manStr);
+  const pills=esFest?[`<span class="ctx-pill festivo">🎉 Mañana es festivo</span>`]:[];
+  renderHero(v.nivel,v.motivo,v.consejo,ctx,activeCiudad.nombre,pills);
+
   const manDate=new Date(); manDate.setDate(manDate.getDate()+1);
   const manStr=fmtDate(manDate);
-  const esFest=FESTIVOS.has(manStr);
-
-  const pills=[];
-  if(esFest) pills.push(`<span class="ctx-pill festivo">🎉 Mañana es festivo</span>`);
-
   let horasHTML='';
   for(let j=0;j<hourly.time.length;j++){
     const hDate=new Date(hourly.time[j]);
@@ -814,48 +972,40 @@ function renderManana(hourly, daily, sun, ctx){
       </div>`;
   }
 
-  document.getElementById('contenido').innerHTML = `
-    <div class="hero fade">
-      <div class="hero-eyebrow">${pills.join('')}</div>
-      <div class="respuesta ${v.nivel}">${v.nivel==='si'?'Sí.':v.nivel==='quizas'?'Quizás.':'No.'}</div>
-      <p class="motivo">${v.motivo}</p>
-      <p class="consejo">${v.consejo}</p>
-    </div>
-    <div class="divider fade"></div>
+  document.getElementById('detalle').innerHTML = `
     <div class="datos-section fade">
-      <div class="datos-title">Condiciones mañana</div>
+      <p class="control-label" style="margin-bottom:10px;">Condiciones mañana</p>
       <div class="datos-grid">
-        <div class="dato ${tMax>=22&&tMax<=30?'highlight-green':tMax<12?'highlight-red':''}">
+        <div class="dato ${tMax>=22?'hl-green':tMax<12?'hl-red':''}">
           <div class="dato-icon">🌡️</div>
           <div class="dato-val">${tMax}°C</div>
           <div class="dato-lbl">Máxima</div>
           <div class="dato-sub">Mín. ${tMin}°C</div>
         </div>
-        <div class="dato ${wind>=35?'highlight-red':wind>=25?'highlight-amber':''}">
+        <div class="dato ${wind>=35?'hl-red':wind>=25?'hl-amber':''}">
           <div class="dato-icon">💨</div>
           <div class="dato-val">${wind} km/h</div>
-          <div class="dato-lbl">Viento máximo</div>
-          <div class="dato-sub">${vientoDesc(wind)}</div>
+          <div class="dato-lbl">Viento máx.</div>
         </div>
-        <div class="dato ${rain>=1?'highlight-red':rain>=0.5?'highlight-amber':''}">
+        <div class="dato ${rain>=1?'hl-red':rain>=0.5?'hl-amber':''}">
           <div class="dato-icon">🌧️</div>
-          <div class="dato-val" style="font-size:16px;margin-top:3px;">${rain<0.1?'Sin lluvia':rain.toFixed(1)+' mm'}</div>
+          <div class="dato-val" style="font-size:16px;margin-top:4px;">${rain<0.1?'Sin lluvia':rain.toFixed(1)+' mm'}</div>
           <div class="dato-lbl">Lluvia total</div>
         </div>
         <div class="dato">
           <div class="dato-icon">${wmoIcon(wcode)}</div>
-          <div class="dato-val" style="font-size:15px;margin-top:3px;">${wmoDesc(wcode)}</div>
+          <div class="dato-val" style="font-size:15px;margin-top:4px;">${wmoDesc(wcode)}</div>
           <div class="dato-lbl">Cielo</div>
         </div>
       </div>
     </div>
     <div class="horas-section fade">
       <div class="horas-title">🕑 Mañana hora a hora</div>
-      <div class="horas-list">${horasHTML||'<div class="hora-item"><span class="hora-desc">Sin datos horarios</span></div>'}</div>
+      <div class="horas-list">${horasHTML||'<div class="hora-item"><span class="hora-desc">Sin datos</span></div>'}</div>
     </div>`;
 }
 
-function renderSemana(daily, ctx){
+function renderSemana(daily,ctx) {
   let buenos=0;
   let horasHTML='';
   for(let i=0;i<Math.min(7,daily.time.length);i++){
@@ -870,102 +1020,108 @@ function renderSemana(daily, ctx){
     const esFest=FESTIVOS.has(daily.time[i]);
     if(v.nivel==='si') buenos++;
     const badge=v.nivel==='si'?'Sí':v.nivel==='quizas'?'Quizás':'No';
-    const dLabel=i===0?'Hoy':DIAS[date.getDay()];
-    const extra=esFest?'🎉 festivo':'';
     horasHTML+=`
       <div class="hora-item${i===0?' now':''}">
-        <span class="hora-time">${dLabel}</span>
+        <span class="hora-time">${i===0?'Hoy':DIAS[date.getDay()]}</span>
         <span class="hora-badge ${v.nivel}">${badge}</span>
         <span class="hora-desc">${wmoIcon(wcode)} ${tMax}°/${tMin}° · ${wmoDesc(wcode)}</span>
-        <span class="hora-extra">${extra}</span>
+        <span class="hora-extra">${esFest?'🎉':''}</span>
       </div>`;
   }
 
-  const resNivel = buenos>=5?'si':buenos>=3?'quizas':'no';
-  const resTxt   = buenos>=5?`${buenos} de 7 días de terraza.`
-                 : buenos>=3?`${buenos} días buenos esta semana.`
-                 : `Solo ${buenos} día${buenos===1?'':'s'} de terraza.`;
-  const resSub   = buenos>=5?'Buena semana.':buenos>=3?'Elige bien.':'Mala semana.';
+  const rNivel=buenos>=5?'si':buenos>=3?'quizas':'no';
+  const rTxt=buenos>=5?`${buenos} de 7 días de terraza.`:buenos>=3?`${buenos} días buenos.`:`Solo ${buenos} día${buenos===1?'':'s'} bueno.`;
+  const rSub=buenos>=5?'Buena semana.':buenos>=3?'Elige bien.':'Mala semana.';
 
-  document.getElementById('contenido').innerHTML = `
-    <div class="fade">
-      <p class="section-label" style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Esta semana</p>
-      <div class="semana-hero ${resNivel}">${resTxt}</div>
-      <p class="motivo" style="font-size:1.1rem;margin-top:.4rem;">${resSub}</p>
-    </div>
-    <div class="divider fade"></div>
+  renderHero(rNivel,rTxt+' '+rSub,'Planifica con tiempo',ctx,activeCiudad.nombre,[]);
+
+  document.getElementById('detalle').innerHTML = `
     <div class="horas-section fade">
       <div class="horas-title">📅 Día a día</div>
       <div class="horas-list">${horasHTML}</div>
     </div>`;
 }
 
+// ── Render dispatcher ──
+function render(meteo,sun) {
+  const now=new Date();
+  const hourly=meteo.hourly;
+  const daily=meteo.daily;
+  const ctx=ctxDia(now);
+  let idx=0;
+  for(let i=0;i<hourly.time.length;i++){
+    if(new Date(hourly.time[i])<=now) idx=i;
+  }
+  document.getElementById('footer-ciudad').textContent =
+    activeCiudad.nombre+' · '+{ahora:'Ahora',manana:'Mañana',semana:'Semana'}[activeVista];
+
+  if(activeVista==='ahora')       renderAhora(hourly,daily,sun,ctx,idx,now);
+  else if(activeVista==='manana') renderManana(hourly,daily,sun,ctx);
+  else                            renderSemana(daily,ctx);
+}
+
 // ── Carga ──
-async function cargar(){
-  setLoading(true);
-  document.getElementById('contenido').innerHTML =
-    `<div class="skel" style="height:110px;margin-bottom:12px;"></div>
-     <div class="skel" style="height:48px;margin-bottom:12px;"></div>
-     <div class="skel" style="height:80px;margin-bottom:12px;"></div>
-     <div class="skel" style="height:220px;"></div>`;
+async function cargar() {
+  setLive(false);
+  document.getElementById('hero-content').innerHTML = `
+    <div class="loading-hero">
+      <div class="skel" style="width:55%;height:14px;"></div>
+      <div class="skel" style="width:50%;height:96px;border-radius:12px;"></div>
+      <div class="skel" style="width:75%;height:22px;"></div>
+      <div class="skel" style="width:45%;height:13px;"></div>
+    </div>`;
+  document.getElementById('detalle').innerHTML='';
+  document.getElementById('scroll-hint').style.display='none';
+  document.body.className='';
+
   try {
-    const {meteo,sun} = await fetchAll(activeCiudad.lat, activeCiudad.lon);
-    cache    = {meteo,sun};
-    cacheKey = `${activeCiudad.lat},${activeCiudad.lon}`;
+    const {meteo,sun}=await fetchAll(activeCiudad.lat,activeCiudad.lon);
+    cache={meteo,sun};
+    cacheKey=`${activeCiudad.lat},${activeCiudad.lon}`;
     render(meteo,sun);
-    setLoading(false);
-  } catch(e){
-    document.getElementById('contenido').innerHTML =
+    setLive(true);
+  } catch(e) {
+    document.getElementById('hero-content').innerHTML=
       `<p style="color:var(--muted);font-size:14px;padding:2rem 0;">No se pudo cargar. Comprueba la conexión.</p>`;
-    setLoading(false);
   }
 }
 
-function setLoading(v){
-  document.getElementById('dot').className = v?'dot-live off':'dot-live';
-  document.getElementById('live-txt').textContent = v?'cargando':'en directo';
+function setLive(v) {
+  document.getElementById('dot').className=v?'dot-live':'dot-live off';
+  document.getElementById('live-txt').textContent=v?'en directo':'cargando';
 }
 
 // ── Geo ──
-function tryGeo(){
-  if(!navigator.geolocation){ fallbackMadrid(); return; }
+function tryGeo() {
+  if(!navigator.geolocation){ fallback(); return; }
   navigator.geolocation.getCurrentPosition(pos=>{
-    activeCiudad = {lat:pos.coords.latitude, lon:pos.coords.longitude, nombre:'Aquí'};
-    geoLoaded=true;
+    activeCiudad={lat:pos.coords.latitude,lon:pos.coords.longitude,nombre:'Aquí'};
     cargar();
-  }, ()=>{ fallbackMadrid(); });
+  }, ()=>fallback(), {timeout:6000});
 }
 
-function fallbackMadrid(){
-  // Si geo falla, selecciona Madrid
-  const madrid = document.querySelector('[data-ciudad="madrid"]');
-  madrid.classList.add('active');
-  document.getElementById('btn-geo').classList.remove('active');
-  activeCiudad = {lat:40.4168, lon:-3.7038, nombre:'Madrid'};
+function fallback() {
+  const m=document.querySelector('[data-nombre="Madrid"]');
+  document.querySelectorAll('.ciudad-btn').forEach(b=>b.classList.remove('active'));
+  m.classList.add('active');
+  activeCiudad={lat:40.4168,lon:-3.7038,nombre:'Madrid'};
   cargar();
 }
 
 // ── Eventos ──
-document.getElementById('ciudades').addEventListener('click', e=>{
+document.getElementById('ciudades').addEventListener('click',e=>{
   const btn=e.target.closest('.ciudad-btn');
   if(!btn) return;
   document.querySelectorAll('.ciudad-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-
-  if(btn.id==='btn-geo'){
-    activeCiudad={lat:null,lon:null,nombre:'Aquí'};
-    cacheKey='';
-    tryGeo();
-    return;
-  }
-
-  activeCiudad={lat:parseFloat(btn.dataset.lat), lon:parseFloat(btn.dataset.lon), nombre:btn.textContent};
-  const key=`${activeCiudad.lat},${activeCiudad.lon}`;
-  if(cacheKey===key&&cache){ render(cache.meteo,cache.sun); return; }
+  if(btn.id==='btn-geo'){ activeCiudad={lat:null,lon:null,nombre:'Aquí'}; cacheKey=''; tryGeo(); return; }
+  activeCiudad={lat:parseFloat(btn.dataset.lat),lon:parseFloat(btn.dataset.lon),nombre:btn.dataset.nombre};
+  const k=`${activeCiudad.lat},${activeCiudad.lon}`;
+  if(cacheKey===k&&cache){ render(cache.meteo,cache.sun); return; }
   cacheKey=''; cargar();
 });
 
-document.getElementById('vistas').addEventListener('click', e=>{
+document.getElementById('vistas').addEventListener('click',e=>{
   const btn=e.target.closest('.vista-btn');
   if(!btn) return;
   document.querySelectorAll('.vista-btn').forEach(b=>b.classList.remove('active'));
