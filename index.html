@@ -7,21 +7,21 @@
 <meta name="description" content="Una pregunta, una respuesta: ¿se puede bajar a la terraza ahora mismo? El tiempo de verdad, traducido a caña.">
 <meta name="theme-color" content="#0b1430">
 <meta name="color-scheme" content="light dark">
-<link rel="canonical" href="https://nostomamosunacerve.vercel.app/">
+<link rel="canonical" href="https://terrazahoy.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="¿Terraza hoy?">
 <meta property="og:locale" content="es_ES">
-<meta property="og:url" content="https://nostomamosunacerve.vercel.app/">
+<meta property="og:url" content="https://terrazahoy.com/">
 <meta property="og:title" content="¿Terraza hoy?">
 <meta property="og:description" content="Sí, no o depende. El tiempo, traducido a caña.">
-<meta property="og:image" content="https://nostomamosunacerve.vercel.app/og.jpg">
+<meta property="og:image" content="https://terrazahoy.com/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="¿Terraza hoy? Un veredicto enorme sobre un cielo de atardecer.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Terraza hoy?">
 <meta name="twitter:description" content="Sí, no o depende. El tiempo, traducido a caña.">
-<meta name="twitter:image" content="https://nostomamosunacerve.vercel.app/og.jpg">
+<meta name="twitter:image" content="https://terrazahoy.com/og.jpg">
 <meta name="twitter:image:alt" content="¿Terraza hoy? Un veredicto enorme sobre un cielo de atardecer.">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -936,14 +936,14 @@ function shareImage(kind){
   const place=(d.location||'')+'  ·  '+hm(nowOf(d)); if(story)c.fillText(place,W-mx,top-4);
   if(story){c.textAlign='center';c.globalAlpha=1;F("'opsz' 72,'SOFT' 100,'WONK' 0",'340 132px '+SER);c.fillText(neg(tv(d.temp))+'°',W/2,bot-110);
     F('normal','500 '+sm+'px '+SAN);c.globalAlpha=.84;c.fillText('Sensación '+neg(tv(d.feels))+'°  ·  Nota terraza '+Math.max(1,Math.round(S.score/10))+'/10',W/2,bot-34);
-    c.globalAlpha=.7;c.fillText(location.host||'terrazahoy.es',W/2,bot+40);}
-  else{c.fillText(place+'  ·  '+neg(tv(d.temp))+'°',mx,bot);c.textAlign='right';c.globalAlpha=.7;c.fillText(location.host||'terrazahoy.es',W-mx,bot);}
+    c.globalAlpha=.7;c.fillText('terrazahoy.com',W/2,bot+40);}
+  else{c.fillText(place+'  ·  '+neg(tv(d.temp))+'°',mx,bot);c.textAlign='right';c.globalAlpha=.7;c.fillText('terrazahoy.com',W-mx,bot);}
   c.globalAlpha=1; c.textAlign='left';
   return cv;
 }
 async function share(){
   if(!S.data||S.busy)return; S.busy=true; const btn=$('shareBtn'); btn.disabled=true; $('shareLabel').textContent='Un segundo…';
-  const text='¿Terraza hoy en '+S.data.location+'? '+S.word+(/[\p{L}]$/u.test(S.word)?'. ':' ')+S.phrase, url=location.origin+location.pathname;
+  const text='¿Terraza hoy en '+S.data.location+'? '+S.word+(/[\p{L}]$/u.test(S.word)?'. ':' ')+S.phrase, url='https://terrazahoy.com/';
   const reset=()=>{S.busy=false;btn.disabled=false;$('shareLabel').textContent='Compartir';};
   try{
     await fontsReady; const cv=shareImage(innerWidth>=1024?'og':'story');
