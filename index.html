@@ -30,6 +30,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%233f8fdb'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%23ffcf5c'/%3E%3C/svg%3E">
+<script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
@@ -256,6 +257,9 @@ footer a{color:inherit;text-decoration-thickness:var(--hl);text-underline-offset
 .toast{position:fixed;left:50%;bottom:calc(var(--s5) + env(safe-area-inset-bottom));z-index:30;transform:translate(-50%,16px);opacity:0;max-width:calc(100vw - 40px);
   background:#141b24;color:#f8f5ef;font-size:14px;font-weight:500;line-height:1.35;padding:12px 18px;border-radius:22px;text-align:center;text-wrap:balance;transition:transform var(--d-base) var(--e-in),opacity var(--d-base) ease;pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0);transition:transform .5s var(--e-out),opacity var(--d-base) ease}
+.toast.top{top:calc(64px + env(safe-area-inset-top));bottom:auto;transform:translate(-50%,-16px)}
+.toast.top.on{transform:translate(-50%,0)}
+@media (min-width:1024px) and (min-height:600px){.toast.top{top:84px}}
 #shot{position:absolute;left:-9999px;top:0;width:10px;height:10px;visibility:hidden}
 
 body.pending .stagger{animation:none!important;opacity:0;visibility:hidden}
@@ -759,7 +763,7 @@ function showError(msg){
 /* =================== datos =================== */
 async function getJSON(u,ms){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms||9000);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw 0;return await r.json();}finally{clearTimeout(t);}}
 async function reverse(lat,lon){try{const j=await getJSON('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+lat+'&longitude='+lon+'&localityLanguage=es',5000);return j.locality||j.city||j.principalSubdivision||'Aquí mismo';}catch(e){return'Aquí mismo';}}
-function fallback(note){fetchWeather({lat:40.4168,lon:-3.7038,name:'Madrid'}).then(()=>{if(note&&S.data)toast('No sé dónde estás, así que tiro de Madrid. Cámbialo arriba.',3600);});}
+function fallback(note){fetchWeather({lat:40.4168,lon:-3.7038,name:'Madrid'}).then(()=>{if(note&&S.data)toast('No sé dónde estás, así que tiro de Madrid. Cámbialo arriba.',4000,true);});}
 function useMyLoc(fromSheet){
   if(!navigator.geolocation){if(!fromSheet)fallback(true);else toast('Este navegador no me dice dónde estás.');return;}
   const gb=$('geoBtn'); $('geoLabel').textContent='Buscándote…'; gb.setAttribute('aria-busy','true');
@@ -816,7 +820,7 @@ function mock(key){
     const clear=key==='lluvia'&&i>=6, code=clear?2:c.code;
     hourly.push({t:new Date(ms).toISOString().slice(0,16),temp:c.temp+wave-(i>8?2:0),feels:c.feels+wave-(i>8?2:0)+(clear?6:0),code,rain:clear?10:c.rain,wind:c.wind,day:c.tk!=='night'&&i<6});}
   return {offset:off,temp:c.temp,feels:c.feels,wind:c.wind,code:c.code,isDay:c.tk!=='night',tempMax:c.max,tempMin:c.min,gustMax:c.gust,rainProb:c.rain,
-    sunrise:'2026-01-01T07:42',sunset:'2026-01-01T20:58',sunriseNext:'2026-01-02T07:43',location:Q.get('sitio')||'Malasaña, Madrid',hourly,force:{tk:c.tk,frac:c.frac}};
+    sunrise:'2026-01-01T07:42',sunset:'2026-01-01T20:58',sunriseNext:'2026-01-02T07:43',location:Q.get('sitio')||'Madrid',hourly,force:{tk:c.tk,frac:c.frac}};
 }
 
 /* =================== panel =================== */
@@ -854,7 +858,7 @@ document.addEventListener('keydown',e=>{const open=$('sheetWrap').classList.cont
   sh.addEventListener('pointerup',end);sh.addEventListener('pointercancel',end);})();
 
 /* =================== acciones =================== */
-function toast(m,ms){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),ms||2400);}
+function toast(m,ms,top){const t=$('toast');t.textContent=m;t.classList.toggle('top',!!top);t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),ms||2400);}
 const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}};
 let lastRoll=0;
 function reroll(){

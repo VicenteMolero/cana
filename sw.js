@@ -7,6 +7,7 @@ self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Pr
 self.addEventListener('fetch', e => {
   const r = e.request, u = new URL(r.url);
   if (r.method !== 'GET') return;
+  if (u.pathname.startsWith('/_vercel/')) return; // la medición de visitas va siempre directa a la red
   const fonts = u.hostname === 'fonts.googleapis.com' || u.hostname === 'fonts.gstatic.com';
   if (u.origin !== location.origin && !fonts) return;
   if (r.mode === 'navigate') {
