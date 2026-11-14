@@ -210,6 +210,7 @@ header.tight .clock em{display:none}
 .stat dd small{font-size:12px;font-weight:500;letter-spacing:0;color:var(--muted);margin-left:2px}
 .stat dt{font-size:12px;color:var(--muted);margin-top:2px;line-height:16px;white-space:nowrap}
 footer{margin-top:var(--s3);padding-top:var(--s3);box-shadow:0 calc(var(--hl) * -1) 0 var(--hair);font-size:12px;color:var(--muted);line-height:16px;font-variant-numeric:tabular-nums}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px}
 footer a{color:inherit;text-decoration-thickness:var(--hl);text-underline-offset:3px;border-radius:4px}
 .retry{margin-top:var(--s5);padding:0 var(--s4)}
 
@@ -727,7 +728,7 @@ function render(animate){
   if(!st.firstChild)st.innerHTML=[['nota','Nota terraza','<small>/10</small>'],['wind','Viento','<small>km/h</small>'],['gust','Rachas hoy','<small>km/h</small>'],['rainp','Prob. lluvia','<small>%</small>']].map(s=>'<div class="stat"><dt>'+s[1]+'</dt><dd><span id="st_'+s[0]+'">–</span>'+s[2]+'</dd></div>').join('');
   countTo($('st_nota'),S.score!=null?Math.max(1,Math.round(S.score/10)):'–',animate&&!first); countTo($('st_wind'),Math.round(d.wind),animate&&!first);
   countTo($('st_gust'),Math.round(d.gustMax),animate&&!first); countTo($('st_rainp'),Math.round(d.rainProb||0),animate&&!first);
-  $('foot').innerHTML='Datos de <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> · '+(d.stale?'visto por última vez a las ':'actualizado a las ')+hm(d.stamp?d.stamp:now);
+  $('foot').innerHTML='<span>Datos de <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> · '+(d.stale?'visto por última vez a las ':'actualizado a las ')+hm(d.stamp?d.stamp:now)+'</span><span>Hecho por <a href="https://vicentemolero.com" target="_blank" rel="noopener">vicentemolero.com</a></span>';
   if(first){[['actions',1020],['tempRow',900],['card',1100]].forEach(([id,ms])=>$(id).style.animationDelay=ms+'ms');}
   document.body.classList.remove('pending','err');
   $('live').textContent=S.word+'. '+S.phrase+' '+tv(d.temp)+' grados en '+(d.location||'tu zona')+'.';
