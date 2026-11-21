@@ -143,11 +143,15 @@ header.tight .clock em{display:none}
 .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--s2) 0 var(--s4);min-height:0}
 .verdict{font-family:var(--serif);font-weight:var(--vw);font-variation-settings:'opsz' 144,'SOFT' 100,'WONK' 1;font-kerning:none;line-height:.9;letter-spacing:-.045em;white-space:nowrap;margin:0;font-size:120px;display:flex;align-items:center;justify-content:center;padding-left:.06em;width:100%}
 .verdict.dep{font-style:italic;letter-spacing:-.04em}
-.verdict .ch{display:inline-block;white-space:pre;animation:rise var(--d-slow) var(--e-out) both}
+/* Cada letra es una capa animada (transform + filter); Safari recorta la tinta de una capa a su caja,
+   y en cursiva los trazos (la «d», la «f», la «D») sobresalen. El padding ensancha la caja y el margen
+   negativo lo compensa, así el layout no cambia y no se corta nada. --chp se descuenta en el JS. */
+.verdict{--chp:.14em}
+.verdict .ch{display:inline-block;white-space:pre;padding:.24em var(--chp) .34em;margin-top:-.24em;margin-bottom:-.34em;animation:rise var(--d-slow) var(--e-out) both}
 .verdict .dot{color:var(--accent);transition:color var(--d-slow) var(--e-io)}
 .verdict.out .ch{animation:sink var(--d-base) var(--e-in) both}
 .meas{position:absolute!important;left:-9999px;top:0;visibility:hidden;display:inline-block!important;width:auto!important;padding:0!important;font-size:100px!important;white-space:pre}
-@keyframes rise{from{opacity:0;transform:translateY(.3em) rotate(3deg);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes rise{from{opacity:0;transform:translateY(.3em) rotate(3deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 @keyframes sink{to{opacity:0;transform:translateY(-.16em);filter:blur(6px)}}
 .dots{display:flex;gap:10px;align-items:center}
 .dots i{width:9px;height:9px;border-radius:50%;background:var(--fg);animation:shimmer 1.5s ease-in-out infinite}
@@ -621,14 +625,14 @@ function kern(chars,cls){
   for(let i=1;i<chars.length;i++){const a=chars[i-1],b=chars[i]; const nat=(a===' '||b===' ')?0:(w(a+b)-single[i-1]-single[i])/100; out.push(+(nat+(OPTICAL[a+b]||0)).toFixed(4));}
   m.remove(); return kcache[key]=out;
 }
-let vMax=140;
+let vMax=140; const CHP=.14; // = --chp en CSS
 function fitVerdict(){
   const v=$('verdict'); if(!v.firstChild)return; const desk=innerWidth>=1024&&innerHeight>=600, tab=innerWidth>=700;
   const avail=desk?$('hero').clientWidth-8:Math.min($('app').clientWidth-40,tab?520:420)*.95;
   vMax=desk?Math.min(280,innerHeight*.3,avail*.42):Math.min(tab?188:148,avail*.4,innerHeight*.19);
   v.style.height=Math.round(vMax*.94)+'px';
   if(v.querySelector('.dots')){v.style.fontSize='';return;}
-  v.style.fontSize='100px'; const cs=v.children, w=(cs[cs.length-1].getBoundingClientRect().right-cs[0].getBoundingClientRect().left)||1;
+  v.style.fontSize='100px'; const cs=v.children, l=cs[cs.length-1], w=(l.offsetLeft+l.offsetWidth-cs[0].offsetLeft-2*CHP*100)||1; // offset*: ignora el giro de la animación
   v.style.fontSize=Math.max(48,Math.min(vMax,avail/w*100)).toFixed(1)+'px';
 }
 function setVerdict(word,tier,animate){
@@ -637,7 +641,7 @@ function setVerdict(word,tier,animate){
     const chars=[...word]; const end=/[\p{L}]$/u.test(word); if(end)chars.push('.');
     const k=kern(chars,cls); let html='';
     chars.forEach((ch,i)=>{const dot=end&&i===chars.length-1;
-      html+='<span class="ch'+(dot?' dot':'')+'" aria-hidden="true" style="margin-left:'+k[i]+'em;animation-delay:'+(animate?(i*38+(dot?70:0)+(S.first?260:0)):0)+'ms">'+(ch===' '?' ':esc(ch))+'</span>';});
+      html+='<span class="ch'+(dot?' dot':'')+'" aria-hidden="true" style="margin-left:'+(+(k[i]-(i?2:1)*CHP).toFixed(4))+'em;'+(i===chars.length-1?'margin-right:-'+CHP+'em;':'')+'animation-delay:'+(animate?(i*38+(dot?70:0)+(S.first?260:0)):0)+'ms">'+(ch===' '?' ':esc(ch))+'</span>';});
     v.innerHTML=html; v.setAttribute('aria-label',word+(end?'.':'')); fitVerdict();
     if(!animate)v.querySelectorAll('.ch').forEach(c=>c.style.animation='none');
   };
